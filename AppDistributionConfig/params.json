@@ -1,0 +1,5 @@
+{
+  "credentials_file": "AppDistributionConfig/firebase-credentials.json",
+  "release_notes_file": "AppDistributionConfig/release-notes.txt",
+  "groups_file": "AppDistributionConfig/groups.txt"
+}

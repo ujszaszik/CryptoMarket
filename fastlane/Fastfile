@@ -1,0 +1,31 @@
+default_platform(:android)
+
+platform :android do
+
+  desc "Code validation"
+  lane :detekt do
+    gradle(task: "detekt")
+  end
+
+  desc "Run unit tests"
+    lane :unitTest do
+      gradle(task: "test")
+  end
+
+  desc "Build and Deploy default version to Firebase"
+  lane :deployToFirebase do
+
+    buildParams = read_json(json_path: "AppDistributionConfig/params.json")
+
+    gradle(task: "clean assembleDefaultDebug")
+
+    firebase_app_distribution(
+        firebase_cli_token: ENV['CRYPTO_CLI_TOKEN'],
+        service_credentials_file: buildParams[:credentials_file],
+        app: ENV['CRYPTO_APP_ID'],
+        release_notes_file: buildParams[:release_notes_file],
+        groups_file: buildParams[:groups_file]
+    )
+  end
+
+end
